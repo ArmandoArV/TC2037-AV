@@ -126,6 +126,33 @@ fn main() {
     println!("{}", average(vec![5.0,6.0,1.0,6.0,0.0,1.0,2.0]));
     print!("List: [1.7,4.5,0,2.0,3.4,5,2.5,2.2,1.2] = ");
     println!("{}", average(vec![1.7,4.5,0.0,2.0,3.4,5.0,2.5,2.2,1.2]));
+
+    // Standard deviation
+    println!("Standard deviation: ");
+    print!("List: [] = ");
+    println!("{}", standard_deviation(vec![]));
+    print!("List: [4, 8, 15, 16, 23, 42] = ");
+    println!("{}", standard_deviation(vec![4.0, 8.0, 15.0, 16.0, 23.0, 42.0]));
+    print!("List: [110, 105, 90, 100, 95] = ");
+    println!("{}", standard_deviation(vec![110.0, 105.0, 90.0, 100.0, 95.0]));
+    print!("List: [9, 2, 5, 4, 12, 7, 8, 11, 9, 3, 7, 4, 12, 5, 4, 10, 9, 6, 9, 4] = ");
+    println!("{}", standard_deviation(vec![9.0, 2.0, 5.0, 4.0, 12.0, 7.0, 8.0, 11.0, 9.0, 3.0, 7.0, 4.0, 12.0, 5.0, 4.0, 10.0, 9.0, 6.0, 9.0, 4.0]));
+
+   // Replic
+    println!("Replic:");
+    println!("7, []      = {:?}", replic(7, &Vec::<i32>::new()));
+    println!("0, ['a', 'b', 'c'] = {:?}", replic(0, &vec!['a', 'b', 'c']));
+    println!("3, ['a']    = {:?}", replic(3, &vec!['a']));
+    println!("4, [1, 2, 3, 4]   = {:?}", replic(4, &vec![1, 2, 3, 4]));
+
+    // Expand
+    println!("Expand:");
+    assert_eq!(expand::<char>(&vec![]), vec![]);
+    assert_eq!(expand::<char>(&vec!['a']), vec!['a']);
+    assert_eq!(expand::<i32>(&vec![1, 2, 3, 4]), vec![1, 2, 2, 3, 3, 3, 4, 4, 4, 4]);
+    assert_eq!(expand::<char>(&vec!['a', 'b', 'c', 'd', 'e']), vec!['a', 'b', 'b', 'c', 'c', 'c', 'd', 'd', 'd', 'd', 'e', 'e', 'e', 'e', 'e']);
+
+
     // Binary of number
     println!("Binary of number: ");
     print!("0 = ");
@@ -177,6 +204,18 @@ fn duplicate_list<T: Clone + Default>(list: Vec<T>) -> Vec<T> {
         result.push(i);
     }
     result
+}
+
+
+
+fn standard_deviation(list: Vec<f64>) -> f64 {
+    let n = list.len() as f64;
+    let average = list.iter().sum::<f64>() / n;
+    let mut sum = 0.0;
+    for i in list {
+        sum += (i - average).powi(2);
+    }
+    (sum / n).sqrt()
 }
 
 fn fibonacci(number: u32) -> u32 {
@@ -277,6 +316,16 @@ fn swapper<T: PartialEq + Clone>(a: T, b: T, lst: &[T]) -> Vec<T> {
         .collect()
 }
 
+fn replic<T: Copy>(n: usize, lst: &[T]) -> Vec<T> {
+    let mut result = Vec::new();
+    for element in lst {
+        for _ in 0..n {
+            result.push(*element);
+        }
+    }
+    result
+}
+
 
 
 fn positive_numbers(list: Vec<i32>) -> Vec<i32> {
@@ -294,16 +343,16 @@ fn positive_numbers(list: Vec<i32>) -> Vec<i32> {
 
 }
 
-fn expand_list(list: Vec<i32>) -> Vec<i32> {
+fn expand<T: Clone>(lst: &[T]) -> Vec<T> {
     let mut result = Vec::new();
-    // Result should return the list with each element repeated the number of times of the element itself
-    for i in list {
-        for _j in 0..i {
-            result.push(i);
+    for (i, x) in lst.iter().enumerate() {
+        for j in 0..i + 1 {
+            result.push(x.clone());
         }
     }
-    return result;
+    result
 }
+
 
 fn binary_of_number(number: i32) -> String {
     let mut result = String::new();
