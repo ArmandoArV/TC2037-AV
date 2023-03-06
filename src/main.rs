@@ -238,7 +238,7 @@ fn average(list: Vec<f64>) -> f64 {
     return result / list.len() as f64;
 }
 
-
+/* list of symbols */
 
 fn list_of_symbols(lst: &[String]) -> bool {
     for sym in lst {
